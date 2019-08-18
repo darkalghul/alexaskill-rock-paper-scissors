@@ -135,6 +135,45 @@ function register(voxaApp) {
       to: "askUserChoice",
     };
   });
+
+  voxaApp.onState("askIfStartANewGame", () => {
+    return {
+      flow: "yield",
+      reply: "AskIfStartANewGame",
+      to: "shouldStartANewGame",
+    };
+  });
+
+  voxaApp.onState("shouldStartANewGame", voxaEvent => {
+    if (voxaEvent.intent.name === "YesIntent") {
+      return {
+        flow: "continue",
+        reply: "RestartGame",
+        to: "askHowManyWins",
+      };
+    }
+  
+    if (voxaEvent.intent.name === "NoIntent") {
+      return {
+        flow: "terminate",
+        reply: "Bye",
+      };
+    }
+  });
+  
+  voxaApp.onIntent("CancelIntent", () => {
+    return {
+      flow: "terminate",
+      reply: "Bye",
+    };
+  });
+
+  voxaApp.onIntent("StopIntent", () => {
+    return {
+      flow: "terminate",
+      reply: "Bye",
+    };
+  });
 }
 
 module.exports = register;
