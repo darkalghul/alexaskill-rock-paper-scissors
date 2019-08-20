@@ -1,7 +1,10 @@
 function register(voxaApp) {
   const CHOICES = ['rock', 'paper', 'scissors'];
 
-  voxaApp.onIntent("LaunchIntent", () => {
+  voxaApp.onIntent("LaunchIntent", voxaEvent => {
+    voxaEvent.model.userWins = 0;
+    voxaEvent.model.alexaWins = 0;
+
     return {
       flow: "continue",
       reply: "Welcome",
@@ -20,8 +23,8 @@ function register(voxaApp) {
   voxaApp.onState("getHowManyWins", voxaEvent => {
     if(voxaEvent.intent.name === "MaxWinsIntent") {
       voxaEvent.model.wins = voxaEvent.intent.params.wins;
-      voxaEvent.model.userWins = 0;
-      voxaEvent.model.alexaWins = 0;
+      // voxaEvent.model.userWins = 0;
+      // voxaEvent.model.alexaWins = 0;
       return {
         flow: "continue",
         reply: "StartGame",
@@ -173,6 +176,46 @@ function register(voxaApp) {
       flow: "terminate",
       reply: "Bye",
     };
+  });
+
+  voxaApp.onIntent("ScoreIntent", voxaEvent => {
+    if(voxaEvent.model.userWins > 0 || voxaEvent.model.alexaWins > 0) {
+      return {
+        flow: "continue",
+        reply: "SayScore",
+        to: "askIfContinueGame",
+      };
+    } else {
+      return {
+        flow: "continue",
+        reply: "SayNullScore",
+        to: "askIfStartANewGame",
+      };
+    }
+  });
+
+  voxaApp.onState("askIfContinueGame", () => {
+    return {
+      flow: "yield",
+      reply: "ContinueGame",
+      to: "canYouContinueTheGame",
+    };
+  });
+
+  voxaApp.onState("canYouContinueTheGame", voxaEvent => {
+    if (voxaEvent.intent.name === "YesIntent") {
+      return {
+        flow: "continue",
+        to: "askUserChoice"
+      };
+    }
+  
+    if (voxaEvent.intent.name === "NoIntent") {
+      return {
+        flow: "terminate",
+        reply: "Bye",
+      };
+    }
   });
 }
 

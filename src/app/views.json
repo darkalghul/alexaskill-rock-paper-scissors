@@ -38,6 +38,15 @@
       },
       "Bye": {
         "say": "That's all right, until next time!"
+      },
+      "SayScore": {
+        "say": "The score right now is, you have {userWins} points and I have {alexaWins} points"
+      },
+      "SayNullScore": {
+        "say": "There is no score right now"
+      },
+      "ContinueGame": {
+        "say": "Should we continue playing?"
       }
     }
   }
