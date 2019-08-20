@@ -47,6 +47,9 @@
       },
       "ContinueGame": {
         "say": "Should we continue playing?"
+      },
+      "StartNewGame": {
+        "say": "The score right now is: Alexa {alexaWins}, you {userWins}. Are you sure you want to start a new game?"
       }
     }
   }

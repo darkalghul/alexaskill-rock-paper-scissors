@@ -1,9 +1,7 @@
 function register(voxaApp) {
   const CHOICES = ['rock', 'paper', 'scissors'];
 
-  voxaApp.onIntent("LaunchIntent", voxaEvent => {
-    voxaEvent.model.userWins = 0;
-    voxaEvent.model.alexaWins = 0;
+  voxaApp.onIntent("LaunchIntent", () => {
 
     return {
       flow: "continue",
@@ -12,7 +10,10 @@ function register(voxaApp) {
     };
   });
 
-  voxaApp.onState("askHowManyWins", () => {
+  voxaApp.onState("askHowManyWins", voxaEvent => {
+    voxaEvent.model.userWins = 0;
+    voxaEvent.model.alexaWins = 0;
+
     return {
       flow: "yield",
       reply: "AskHowManyWins",
@@ -214,6 +215,30 @@ function register(voxaApp) {
       return {
         flow: "terminate",
         reply: "Bye",
+      };
+    }
+  });
+
+  voxaApp.onIntent("NewGameIntent", () => {
+    return {
+      flow: "yield",
+      reply: "StartNewGame",
+      to: "restartGame",
+    };
+  });
+
+  voxaApp.onState("restartGame", voxaEvent => {
+    if (voxaEvent.intent.name === "YesIntent") {
+      return {
+        flow: "continue",
+        to: "askHowManyWins",
+      };
+    }
+  
+    if (voxaEvent.intent.name === "NoIntent") {
+      return {
+        flow: "continue",
+        to: "askUserChoice",
       };
     }
   });
