@@ -265,10 +265,34 @@ function register(voxaApp) {
     }
   });
 
+  voxaApp.onIntent("FallbackIntent", () => {
+    return {
+      flow: "continue",
+      reply: "CatchError",
+      to: "SayHelp",
+    };
+  });
+
   voxaApp.onIntent("HelpIntent", () => {
     return {
-      flow: "terminate",
-      reply: "HelpInformation",
+      flow: "continue",
+      to: "SayHelp",
+    }
+  });
+
+  voxaApp.onState("SayHelp", voxaEvent => {
+    if (voxaEvent.model.wins > 0) {
+      return {
+        flow: "continue",
+        reply: "HelpInformation",
+        to: "askUserChoice",
+      };
+    } else {
+      return {
+        flow: "continue",
+        reply: "HelpInformation",
+        to: "askHowManyWins",
+      };
     }
   });
 }
