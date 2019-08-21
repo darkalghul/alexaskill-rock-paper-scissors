@@ -1,8 +1,7 @@
 function register(voxaApp) {
-  const CHOICES = ['rock', 'paper', 'scissors'];
+  const CHOICES = ["rock", "paper", "scissors"];
 
   voxaApp.onIntent("LaunchIntent", () => {
-
     return {
       flow: "continue",
       reply: "Welcome",
@@ -48,7 +47,7 @@ function register(voxaApp) {
         to: "askUserChoice",
       };
     }
-  
+
     if (voxaEvent.intent.name === "NoIntent") {
       return {
         flow: "continue",
@@ -98,7 +97,7 @@ function register(voxaApp) {
     } else if (voxaEvent.intent.name === "ScissorsIntent") {
       voxaEvent.model.userChoice = "scissors";
     }
-  
+
     if (voxaEvent.model.userChoice) {
       return {
         flow: "continue",
@@ -179,7 +178,7 @@ function register(voxaApp) {
         to: "askHowManyWins",
       };
     }
-  
+
     if (voxaEvent.intent.name === "NoIntent") {
       return {
         flow: "terminate",
@@ -187,7 +186,7 @@ function register(voxaApp) {
       };
     }
   });
-  
+
   voxaApp.onIntent("CancelIntent", () => {
     return {
       flow: "terminate",
@@ -230,10 +229,10 @@ function register(voxaApp) {
     if (voxaEvent.intent.name === "YesIntent") {
       return {
         flow: "continue",
-        to: "askUserChoice"
+        to: "askUserChoice",
       };
     }
-  
+
     if (voxaEvent.intent.name === "NoIntent") {
       return {
         flow: "terminate",
@@ -257,12 +256,19 @@ function register(voxaApp) {
         to: "askHowManyWins",
       };
     }
-  
+
     if (voxaEvent.intent.name === "NoIntent") {
       return {
         flow: "continue",
         to: "askUserChoice",
       };
+    }
+  });
+
+  voxaApp.onIntent("HelpIntent", () => {
+    return {
+      flow: "terminate",
+      reply: "HelpInformation",
     }
   });
 }

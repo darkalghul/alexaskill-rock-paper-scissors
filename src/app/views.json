@@ -53,6 +53,9 @@
       },
       "ConfirmUserChoice": {
         "say": "{wins} is a big number, are you sure you want to play until one of us wins {wins} times?"
+      },
+      "HelpInformation": {
+        "say": "This is the classic rock paper scissors. You can start a new game by saying the following: start rock paper scissors. You can check the score by saying things like score, current score, tell me the score, who's winning or what's the score. You can start a new game at any time and decide a different amount of times you want to play to be the winner."
       }
     }
   }
